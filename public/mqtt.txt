@@ -1,0 +1,36 @@
+require 'rubygems'
+require 'mqtt'
+require 'readline'            
+
+# nickname 설정    
+nickname=ARGV[0]              
+
+# localhost에서 테스트 했다.
+mqtt = MQTT::Client.new('localhost')
+
+mqtt.connect do |client|
+    client.subscribe('chat/public')
+    client.subscribe("chat/private/#{nickname}")
+    enter_msg = "#{nickname} enter room!!"
+    client.publish 'chat/public', enter_msg
+
+    # Publish Thread
+    Thread.new do
+        while message = Readline.readline("", true)
+            case message
+            when /^\/priv\s*(\w*)\s*(.*)/       # 개인 메시지
+                client.publish "chat/private/#{$1}", "<#{nickname}> : #{$2}"
+            when /^\/quit\s*(.*)/               # 나가기 
+                client.publish 'chat/public', "#{nickname} has quit (#{$1})"
+                exit 1
+            else                                # 공개 메시지
+                client.publish 'chat/public', "#{nickname} : #{message}"
+            end
+        end
+    end
+
+    loop do
+        topic, message = client.get    
+        print message,"\n"
+    end
+end
