@@ -7,24 +7,12 @@
     >
       <v-list dense>
         <template v-for="item in items">
-          <v-row
-            v-if="item.heading"
-            :key="item.heading"
-            align="center"
-          >
+          <v-row v-if="item.heading" :key="item.heading" align="center">
             <v-col cols="6">
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
+              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
             </v-col>
-            <v-col
-              cols="6"
-              class="text-center"
-            >
-              <a
-                href="#!"
-                class="body-2 black--text"
-              >EDIT</a>
+            <v-col cols="6" class="text-center">
+              <a href="#!" class="body-2 black--text">EDIT</a>
             </v-col>
           </v-row>
           <v-list-group
@@ -32,44 +20,33 @@
             :key="item.text"
             v-model="item.model"
             :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon=""
+            append-icon
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.text }}
-                </v-list-item-title>
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item
               v-for="(child, i) in item.children"
               :key="i"
               link
-              :to='child.to'
+              :to="child.to"
             >
               <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ child.text }}
-                </v-list-item-title>
+                <v-list-item-title>{{ child.text }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item
-            v-else
-            :key="item.text"
-            link
-            :to='item.to'
-          >
+          <v-list-item v-else :key="item.text" link :to="item.to">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>
-                {{ item.text }}
-              </v-list-item-title>
+              <v-list-item-title>{{ item.text }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -83,10 +60,7 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title
-        style="width: 300px"
-        class="ml-0 pl-4"
-      >
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <span class="hidden-sm-and-down">위키 문서</span>
       </v-toolbar-title>
       <v-text-field
@@ -104,72 +78,53 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        large
-      >
-        <v-avatar
-          size="32px"
-          item
-        >
+      <v-btn icon large>
+        <v-avatar size="32px" item>
           <v-img
             src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
             alt="Vuetify"
-          ></v-img></v-avatar>
+          ></v-img>
+        </v-avatar>
       </v-btn>
     </v-app-bar>
-    
-    <v-content class='ml-8'>
-      <router-view/>
-    </v-content>
-    <v-btn
-      bottom
-      color="pink"
-      dark
-      fab
-      fixed
-      right
-      @click="dialog = !dialog"
-    >
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
 
+    <v-content class="ml-8">
+      <router-view />
+    </v-content>
   </v-app>
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
-    data: () => ({
-      dialog: false,
-      drawer: null,
-      items: [
-        { icon: 'mdi-view-dashboard', text: '메인화면', to: '/' },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'MQTT 소개',
-          model: false,
-          children: [
-            { icon: 'mdi-view-dashboard', text: 'mqtt 소개', to: '/book1' },
-            { icon: 'mdi-view-dashboard', text: 'mqtt 설정', to: '/book2' },
-            
-          ],
-        },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'Hue',
-          model: false,
-          children: [
-            { icon: 'mdi-view-dashboard', text: 'Hue 적용', to: '/book1' },
-            { icon: 'mdi-view-dashboard', text: 'Hue 설정', to: '/book2' },
-            
-          ],
-        },
-      ],
-    }),
-  }
+export default {
+  props: {
+    source: String,
+  },
+  data: () => ({
+    dialog: false,
+    drawer: null,
+    items: [
+      { icon: "mdi-view-dashboard", text: "메인화면", to: "/" },
+      {
+        icon: "mdi-chevron-up",
+        "icon-alt": "mdi-chevron-down",
+        text: "MQTT 소개",
+        model: false,
+        children: [
+          { icon: "mdi-view-dashboard", text: "mqtt 소개", to: "/book1" },
+          { icon: "mdi-view-dashboard", text: "mqtt 실습", to: "/book2" },
+        ],
+      },
+      {
+        icon: "mdi-chevron-up",
+        "icon-alt": "mdi-chevron-down",
+        text: "Hue",
+        model: false,
+        children: [
+          { icon: "mdi-view-dashboard", text: "Hue 적용", to: "/book1" },
+          { icon: "mdi-view-dashboard", text: "Hue 설정", to: "/book2" },
+        ],
+      },
+    ],
+  }),
+};
 </script>

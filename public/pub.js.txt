@@ -1,0 +1,21 @@
+const mqtt = require('mqtt');
+
+const options = {
+    host: '52.79.239.7',
+    port: 1883,
+    protocol: 'mqtt',
+    username:"yang",
+    password:"yang"
+}
+  
+const client = mqtt.connect(options);
+
+client.on("connect", () => {	
+    console.log("connected : "+ client.connected);
+})
+
+client.on("error", (error) => { 
+    console.log("Can't connect : " + error);
+})
+
+client.publish("hello_topic", "Hello World Message")
