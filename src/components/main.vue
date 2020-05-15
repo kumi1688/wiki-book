@@ -1,8 +1,8 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <core-drawer />
     <core-bar />
-    <v-content class="ml-8">
+    <v-content class="ml-2 mt-2">
       <router-view />
     </v-content>
   </v-app>
@@ -17,11 +17,6 @@ export default {
     "core-drawer": drawer,
     "core-bar": bar,
   },
-  props: {
-    source: String,
-  },
-  data: () => ({
-    drawer: false,
-  }),
+  data: () => ({}),
 };
 </script>

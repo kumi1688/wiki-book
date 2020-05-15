@@ -7,16 +7,8 @@
     >
       <v-list dense>
         <template v-for="item in items">
-          <v-row v-if="item.heading" :key="item.heading" align="center">
-            <v-col cols="6">
-              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
-            </v-col>
-            <v-col cols="6" class="text-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
-            </v-col>
-          </v-row>
           <v-list-group
-            v-else-if="item.children"
+            v-if="item.children"
             :key="item.text"
             v-model="item.model"
             :prepend-icon="item.model ? item.icon : item['icon-alt']"
@@ -56,16 +48,37 @@
 </template>
 
 <script>
+import bookList from "../../../public/books/bookList.json";
+import fs from "fs";
+
+bookList.forEach((book) => {
+  const result = fs.readFileSync(`${book}/index.js`);
+  console.log(result);
+});
+
 export default {
   computed: {
     drawer() {
       return this.$store.state.drawer;
     },
   },
+  created: function() {
+    const defaultRoute = {
+      icon: "mdi-view-dashboard",
+      text: "메인화면",
+      to: "/",
+    };
+    this.items = [{ ...defaultRoute }];
+    console.log(bookList);
+  },
   data: function() {
     return {
       items: [
-        { icon: "mdi-view-dashboard", text: "메인화면", to: "/" },
+        {
+          icon: "mdi-view-dashboard",
+          text: "메인화면",
+          to: "/",
+        },
         {
           icon: "mdi-chevron-up",
           "icon-alt": "mdi-chevron-down",
@@ -74,16 +87,6 @@ export default {
           children: [
             { icon: "mdi-view-dashboard", text: "mqtt 소개", to: "/book1" },
             { icon: "mdi-view-dashboard", text: "mqtt 실습", to: "/book2" },
-          ],
-        },
-        {
-          icon: "mdi-chevron-up",
-          "icon-alt": "mdi-chevron-down",
-          text: "Hue",
-          model: false,
-          children: [
-            { icon: "mdi-view-dashboard", text: "Hue 적용", to: "/book1" },
-            { icon: "mdi-view-dashboard", text: "Hue 설정", to: "/book2" },
           ],
         },
       ],
